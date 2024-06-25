@@ -8,7 +8,8 @@ const Home = () => {
 
   useEffect(() => {
     loadProducts();
-  }, [loadProducts]);
+    console.log(items, "items");
+  }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -21,7 +22,7 @@ const Home = () => {
         dataSource={items}
         renderItem={(item) => (
           <List.Item>
-            <Card title={item.name}>
+            <Card title={item.title}>
               <p>Price: ${item.price}</p>
               <Link to={`/product/${item.id}`}>View Details</Link>
             </Card>
@@ -33,3 +34,10 @@ const Home = () => {
 };
 
 export default Home;
+
+// const items = [
+//   { id: 1, name: 'Car', price: 10 },
+//   { id: 2, name: 'Bike', price: 20 },
+//   { id: 3, name: 'Lorry', price: 30 },
+//   { id: 4, name: 'Jeep', price: 40 },
+// ]

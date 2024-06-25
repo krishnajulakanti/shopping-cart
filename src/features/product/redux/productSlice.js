@@ -1,13 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../../api';
+// import api from '../../../api';
+import { fetchProductsList, fetchProductListById } from '../../../api';
 
 export const fetchProducts = createAsyncThunk('product/fetchProducts', async () => {
-  const response = await api.fetchProducts();
+  // const response = await api.fetchProducts();
+  const response = await fetchProductsList();
   return response.data;
 });
 
 export const fetchProductById = createAsyncThunk('product/fetchProductById', async (id) => {
-  const response = await api.fetchProductById(id);
+  // const response = await api.fetchProductById(id);
+  const response = await fetchProductListById(id);
   return response.data;
 });
 

@@ -8,14 +8,14 @@ const ProductDetail = () => {
 
   useEffect(() => {
     loadProductById(id);
-  }, [id, loadProductById]);
+  }, [id]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      <h1>{selectedItem?.name}</h1>
+      <h1>{selectedItem?.title}</h1>
       <p>{selectedItem?.description}</p>
       <p>Price: ${selectedItem?.price}</p>
     </div>
