@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, logout, register } from '../redux/authSlice';
 
 const useAuth = () => {
+  
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 

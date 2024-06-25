@@ -11,10 +11,6 @@ import './assets/styles/App.css'; // Import custom styles
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>
-
   <Provider store={store}>
     <App />
   </Provider>

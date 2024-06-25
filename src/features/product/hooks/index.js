@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, fetchProductById } from '../redux/productSlice';
 
 const useProduct = () => {
+  
   const dispatch = useDispatch();
   const productState = useSelector((state) => state.product);
 
