@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useProduct from '../hooks';
 import useCart from '../../cart/hooks';
-import { Button } from 'antd';
+import { Button, Card } from 'antd';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -24,10 +24,14 @@ const ProductDetail = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h1>{selectedItem?.title}</h1>
-      <p>Price: ${selectedItem?.price}</p>
-      <Button onClick={() => navigateToCart(selectedItem)}>Add to Cart</Button>
+    <div style={{ height: '100%', width: '20%' }}>
+      <Card title={selectedItem?.title}>
+        <img src={selectedItem?.image} alt="cong" style={{ height: '50%', width: '30%' }} />
+        <p>Price: ₹ {selectedItem?.price}</p>
+        <p>{selectedItem?.description}</p>
+        <p>Category: {selectedItem?.category}</p>
+        <Button onClick={() => navigateToCart(selectedItem)}>Add to Cart</Button>
+      </Card>
     </div>
   );
 };

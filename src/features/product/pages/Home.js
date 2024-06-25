@@ -22,8 +22,9 @@ const Home = () => {
         dataSource={items}
         renderItem={(item) => (
           <List.Item>
-            <Card title={item.title}>
-              <p>Price: ${item.price}</p>
+            <Card title={item?.title}>
+              <img src={item?.image} alt="cong" style={{ height: '100px', width: '100px' }} />
+              <p>Price: ₹ {item?.price}</p>
               <Link to={`/product/${item.id}`}>View Details</Link>
             </Card>
           </List.Item>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Button } from 'antd';
+import { List, Button, Card } from 'antd';
 import useCart from '../hooks';
 import { useSelector } from 'react-redux';
 import { selectCartTotal } from '../redux/cartSlice';
@@ -20,20 +20,23 @@ const Cart = () => {
             dataSource={items}
             renderItem={(item) => (
               <List.Item>
-                <div key={item?.id} className="cart-item">
-                  <h2>{item?.title}</h2>
-                  <p>Price: ${item.price}</p>
-                  <p>Quantity: {item.quantity}</p>
-                  <p>Total: ${item.price * item.quantity}</p>
+                <div key={item?.id} className="cart-item" style={{ height: '100%', width: '20%' }}>
+                  <Card title={item?.title} >
+                  {/* <h2>{item?.title}</h2> */}
+                    <img src={item?.image} alt="cong" style={{ height: '100px', width: '100px' }} />
+                  <p>Price: ₹ {item?.price}</p>
+                  <p>Quantity: {item?.quantity}</p>
+                  <p>Total: ₹ {item?.price * item?.quantity}</p>
                   <Button onClick={() => incrementQuantityInCart(item)}>+</Button>
                   <Button onClick={() => decrementQuantityInCart(item)}>-</Button>
                   <Button onClick={() => removeItemFromCart(item)}>Remove Item</Button>
+                  </Card>
                 </div>
               </List.Item>
             )}
           />
           <Button onClick={clearCartItems}>Clear Cart</Button>
-          <h2>Total Amount: ${totalAmount}</h2>
+          <h2>Total Amount: ₹ {totalAmount}</h2>
         </div>
       )}
     </div>
@@ -65,7 +68,7 @@ export default Cart;
 //         renderItem={(item) => (
 //           <List.Item>
 //             <div>{item.name}</div>
-//             <div>${item.price}</div>
+//             <div>₹{item.price}</div>
 //             <Button onClick={() => removeItemFromCart(item)}>Remove</Button>
 //           </List.Item>
 //         )}
