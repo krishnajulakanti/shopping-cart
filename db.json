@@ -1,27 +1,16 @@
 {
   "users": [
     {
-      "id": "498a",
-      "email": "dryh",
-      "password": "dryh"
+      "id": "3bcd",
+      "email": "kjulakanti+1@primesoft.net",
+      "password": "das",
+      "name": "Green"
     },
     {
-      "id": "e422",
-      "email": "",
-      "password": "",
-      "name": ""
-    },
-    {
-      "id": "18bd",
-      "email": "",
-      "password": "",
-      "name": ""
-    },
-    {
-      "id": "4e82",
-      "email": "",
-      "password": "",
-      "name": ""
+      "id": "5550",
+      "email": "kjulakanti+2@primesoft.net",
+      "password": "qwqw",
+      "name": "Green"
     }
   ]
 }

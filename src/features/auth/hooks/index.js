@@ -5,9 +5,11 @@ const useAuth = () => {
 
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+  console.log(authState, "authState2");
 
   const loginUser = (credentials) => {
     dispatch(login(credentials));
+    console.log(authState, "authState");
   };
 
   const logoutUser = () => {

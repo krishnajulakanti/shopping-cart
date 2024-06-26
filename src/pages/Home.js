@@ -11,18 +11,18 @@ const Home = () => {
   // const user = useSelector(selectUser);
   const navigate = useNavigate();
 
-  useEffect(() => {
-      navigate('/');
-  }, []);
   // useEffect(() => {
-  //   if (!user) {
-  //     navigate('/login');
-  //   }
-  // }, [user, navigate]);
+  //     navigate('/');
+  // }, []);
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
-  // if (!user) {
-  //   return null; // or a loading spinner
-  // }
+  if (!user) {
+    return null; // or a loading spinner
+  }
 
   return (
     <div>
