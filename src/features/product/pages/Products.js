@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { List, Card } from 'antd';
 import useProduct from '../hooks';
 
-const Home = () => {
+const Products = () => {
   const { items, loadProducts, loading, error } = useProduct();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Products;
 
 // const items = [
 //   { id: 1, name: 'Car', price: 10 },

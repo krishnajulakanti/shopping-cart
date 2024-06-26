@@ -4,14 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks';
 
 const Register = () => {
-  const { registerUser, loading, error } = useAuth();
+  const { user, registerUser, loading, error } = useAuth();
   const [data, setData] = useState({ email: '', password: '', name: '' });
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    registerUser(data).then(() => {
-      navigate('/login');
-    });
+    registerUser(data);
+    navigate('/login');
   };
 
   return (

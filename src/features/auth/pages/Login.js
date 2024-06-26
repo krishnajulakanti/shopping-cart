@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks';
 
 const Login = () => {
-  const { loginUser, loading, error } = useAuth();
+  const { user, loginUser, loading, error } = useAuth();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    loginUser(credentials).then(() => {
-      navigate('/');
-    });
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  const handleSubmit = async () => {
+    await loginUser(credentials);
+    if (user) {
+      // navigate('/');
+    console.log(user, 'user')
+    }
   };
 
   return (

@@ -49,3 +49,8 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
+
+
+// Product Slice(extraReducers):
+
+// The product slice often involves fetching data from an API, which is an asynchronous operation.Therefore, createAsyncThunk is used to handle the asynchronous action, and extraReducers is used to handle the different states(pending, fulfilled, rejected) of the asynchronous action.

@@ -5,7 +5,10 @@ import { loginApi, registerApi } from '../../../api';
 export const login = createAsyncThunk('auth/login', async (credentials) => {
   // const response = await api.login(credentials);
   const response = await loginApi(credentials);
-  return response.data;
+  if (response.data.length === 0) {
+    throw new Error('Invalid email or password');
+  }
+  return response.data[0];
 });
 
 export const register = createAsyncThunk('auth/register', async (data) => {
@@ -34,6 +37,7 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        console.log(state.user, "state.user");
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -54,5 +58,5 @@ const authSlice = createSlice({
 });
 
 export const { logout } = authSlice.actions;
-
+export const selectUser = (state) => state.auth.user;
 export default authSlice.reducer;

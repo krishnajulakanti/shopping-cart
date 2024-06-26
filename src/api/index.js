@@ -6,10 +6,12 @@ import axios from 'axios';
 //   baseURL: 'https://fakestoreapi.com', // Replace with your API base URL
 // });
 
+const BASE_URL = 'http://localhost:5000';
+
 const fetchProductsList = () => axios.get('https://fakestoreapi.com/products');
 const fetchProductListById = (id) => axios.get(`https://fakestoreapi.com/products/${id}`);
-const loginApi = (credentials) => axios.post('/auth/login', credentials);
-const registerApi = (data) => axios.post('/auth/register', data);
+const loginApi = (credentials) => axios.get(`${BASE_URL}/users`);
+const registerApi = (data) => axios.post(`${BASE_URL}/users`, data);
 
 export { fetchProductsList, fetchProductListById, loginApi, registerApi };
 

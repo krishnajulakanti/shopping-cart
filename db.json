@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": "498a",
+      "email": "dryh",
+      "password": "dryh"
+    },
+    {
+      "id": "e422",
+      "email": "",
+      "password": "",
+      "name": ""
+    },
+    {
+      "id": "18bd",
+      "email": "",
+      "password": "",
+      "name": ""
+    },
+    {
+      "id": "4e82",
+      "email": "",
+      "password": "",
+      "name": ""
+    }
+  ]
+}
