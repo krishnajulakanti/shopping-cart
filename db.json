@@ -11,6 +11,12 @@
       "email": "kjulakanti+2@primesoft.net",
       "password": "qwqw",
       "name": "Green"
+    },
+    {
+      "id": "123",
+      "email": "dummy+2@primesoft.net",
+      "password": "qwqw",
+      "name": "Green"
     }
   ]
 }
