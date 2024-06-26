@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div>
       <h1>Welcome to the Home Page</h1>
-      <Link to={'/product'}>Products</Link>
+      <Link to={'/products'}>Products</Link>
       {/* Add your home page content here */}
     </div>
   );

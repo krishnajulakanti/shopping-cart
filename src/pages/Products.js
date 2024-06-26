@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Card } from 'antd';
-import useProduct from '../hooks';
+import useProduct from '../features/product/hooks';
 
 const Products = () => {
   const { items, loadProducts, loading, error } = useProduct();
@@ -25,7 +25,7 @@ const Products = () => {
             <Card title={item?.title}>
               <img src={item?.image} alt="cong" style={{ height: '100px', width: '100px' }} />
               <p>Price: ₹ {item?.price}</p>
-              <Link to={`/product/${item.id}`}>View Details</Link>
+              <Link to={`/products/${item.id}`}>View Details</Link>
             </Card>
           </List.Item>
         )}
