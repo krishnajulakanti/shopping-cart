@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Form, Input, Button, Card } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../features/auth/hooks';
 
@@ -18,7 +18,8 @@ const Register = () => {
       name: nameRef.current.input.value
     }
     registerUser(data);
-    navigate('/login');
+    alert(user?.message)
+    navigate('/login')
   };
 
   const handleLogin = () => {
@@ -53,3 +54,34 @@ const Register = () => {
 };
 
 export default Register;
+
+
+
+
+
+
+
+
+// const [messageApi, contextHolder] = message.useMessage();
+
+
+// useEffect(() => {
+//   if (user?.isUserCreated) {
+//     messageApi.open({
+//       type: 'success',
+//       content: user?.message,
+//       duration: 10,
+//     });
+
+//     setTimeout(() => { })
+//     navigate('/login');
+//   }
+// }, [user])
+
+
+// useEffect(()=>{
+//   if (user?.isUserCreated) {
+//     alert(user?.message)
+//     // navigate('/login');
+//   }
+// }, [user?.isUserCreated])

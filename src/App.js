@@ -17,7 +17,7 @@ function App() {
     <div>
       <Router>
         <AuthRoutes />
-        {user && <Layout>
+        {user?.isLoggedIn && <Layout>
           <Header />
           <Content className="app-content">
             <AppRoutes />

@@ -5,16 +5,25 @@ import { loginApi, registerApi } from '../../../api';
 export const login = createAsyncThunk('auth/login', async (credentials) => {
   // const response = await api.login(credentials);
   const response = await loginApi(credentials);
-  if (response.data.length === 0) {
-    throw new Error('Invalid email or password');
+  if (response.data.length) {
+    let isLoggedIn = response.data.some(
+      (element) => element.email === credentials.email && element.password === credentials.password);
+    if (isLoggedIn) {
+      return { status: 200, isLoggedIn: true, message: 'User logged in successfully.' }
+    } else {
+      return { status: 422, isLoggedIn: false, message: 'Invalid email or password.' }
+    }
+  } else {
+    return { status: 404, isUserFound: false, message: 'User not registered.' }
   }
-  return response.data;
 });
 
 export const register = createAsyncThunk('auth/register', async (data) => {
   // const response = await api.register(data);
   const response = await registerApi(data);
-  return response.data;
+  if (response.data) {
+    return { status: 201, isUserCreated: true, message: 'User created successfully.' }
+  }
 });
 
 const authSlice = createSlice({
@@ -37,7 +46,6 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        console.log(state.user, "state.user");
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

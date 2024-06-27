@@ -11,14 +11,12 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user?.length) {
-      let isLoggedIn = user.some(
-        (element) => element.email === emailRef.current.input.value && element.password === passwordRef.current.input.value);
-      if(isLoggedIn) {
-        navigate('/');
-      } else {
-        alert('Login credentials are incorrect')
-      }
+    if (user?.isLoggedIn) {
+      navigate('/');
+    } else if (user?.isUserFound === false) {
+      alert(user?.message)
+    } else if (user?.isLoggedIn !== undefined) {
+      alert(user?.message)
     }
   }, [user])
 
@@ -35,15 +33,15 @@ const Login = () => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px'}}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px' }}>
       <Card style={{ width: '30%' }}>
         <h1>Login</h1>
         <Form onFinish={handleSubmit}>
           <Form.Item label="Email" name="email">
-            <Input ref={emailRef} required/>
+            <Input ref={emailRef} required />
           </Form.Item>
           <Form.Item label="Password" name="password">
-            <Input.Password ref={passwordRef} required/>
+            <Input.Password ref={passwordRef} required />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading}>
