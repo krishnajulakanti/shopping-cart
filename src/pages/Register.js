@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../features/auth/hooks';
 
@@ -21,26 +21,33 @@ const Register = () => {
     navigate('/login');
   };
 
+  const handleLogin = () => {
+    navigate('/login');
+  }
+
   return (
-    <div>
-      <h1>Register</h1>
-      <Form onFinish={handleSubmit}>
-        <Form.Item label="Name" name="name">
-          <Input ref={nameRef}/>
-        </Form.Item>
-        <Form.Item label="Email" name="email">
-          <Input ref={emailRef}/>
-        </Form.Item>
-        <Form.Item label="Password" name="password">
-          <Input.Password ref={passwordRef}/>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
-            Register
-          </Button>
-        </Form.Item>
-        {error && <p>{error}</p>}
-      </Form>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px' }}>
+      <Card style={{ width: '30%' }}>
+        <h1>Register</h1>
+        <Form onFinish={handleSubmit}>
+          <Form.Item label="Name" name="name">
+            <Input ref={nameRef} required/>
+          </Form.Item>
+          <Form.Item label="Email" name="email">
+            <Input ref={emailRef} required/>
+          </Form.Item>
+          <Form.Item label="Password" name="password">
+            <Input.Password ref={passwordRef} required/>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Submit
+            </Button> &nbsp;
+            <Button type="primary" danger onClick={handleLogin}> Login </Button>
+          </Form.Item>
+          {error && <p>{error}</p>}
+        </Form>
+      </Card>
     </div>
   );
 };

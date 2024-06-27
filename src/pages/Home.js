@@ -6,14 +6,10 @@ import useAuth from '../features/auth/hooks';
 import { Button } from 'antd';
 
 const Home = () => {
-  const { user } = useAuth();
 
-  // const user = useSelector(selectUser);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //     navigate('/');
-  // }, []);
   useEffect(() => {
     if (!user) {
       navigate('/login');
@@ -27,7 +23,6 @@ const Home = () => {
   return (
     <div>
       <h1>Welcome to the Home Page</h1>
-      <Link to={'/products'}>Products</Link>
       {/* Add your home page content here */}
     </div>
   );
