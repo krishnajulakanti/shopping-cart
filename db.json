@@ -1,5 +1,10 @@
 {
   "users": [
-
+    {
+      "id": "fbd5",
+      "email": "kjulakanti+1@primesoft.net",
+      "password": "123",
+      "name": "Green"
+    }
   ]
 }
