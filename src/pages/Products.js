@@ -8,7 +8,6 @@ const Products = () => {
 
   useEffect(() => {
     loadProducts();
-    console.log(items, "items");
   }, []);
 
   if (loading) return <div>Loading...</div>;
