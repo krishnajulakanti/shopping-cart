@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Form, Input, Button, Card, message } from 'antd';
+import React, { useRef } from 'react';
+import { Form, Input, Button, Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../features/auth/hooks';
 
@@ -19,11 +19,11 @@ const Register = () => {
     }
     registerUser(data);
     alert(user?.message)
-    navigate('/login')
+    navigate('/auth/login')
   };
 
   const handleLogin = () => {
-    navigate('/login');
+    navigate('/auth/login');
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form, Input, Button, Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../features/auth/hooks';
@@ -12,11 +12,9 @@ const Login = () => {
 
   useEffect(() => {
     if (user?.isLoggedIn) {
-      navigate('/');
-    } else if (user?.isUserFound === false) {
-      alert(user?.message)
-    } else if (user?.isLoggedIn !== undefined) {
-      alert(user?.message)
+      navigate('/home');
+    } else if (user?.isUserFound === false || user?.isLoggedIn !== undefined) {
+      alert(user?.message);
     }
   }, [user])
 
@@ -29,7 +27,7 @@ const Login = () => {
   };
 
   const handleRegister = () => {
-    navigate('/register');
+    navigate('/auth/register');
   }
 
   return (

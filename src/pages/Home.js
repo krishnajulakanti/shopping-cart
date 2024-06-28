@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { selectUser } from '../features/auth/redux/authSlice';
 import useAuth from '../features/auth/hooks';
-import { Button } from 'antd';
 
 const Home = () => {
 
@@ -12,7 +11,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate('/auth/login');
     }
   }, [user, navigate]);
 
