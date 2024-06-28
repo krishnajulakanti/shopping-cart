@@ -1,5 +1,22 @@
 {
   "users": [
-
+    {
+      "id": "fbd5",
+      "email": "kjulakanti+1@primesoft.net",
+      "password": "123",
+      "name": "Green"
+    },
+    {
+      "id": "e88f",
+      "email": "kjulakanti+1@primesoft.net",
+      "password": "123",
+      "name": "Green"
+    },
+    {
+      "id": "0bba",
+      "email": "kjulakanti+2@primesoft.net",
+      "password": "123",
+      "name": "Green"
+    }
   ]
 }
