@@ -6,9 +6,9 @@ import Footer from '../components/layout/Footer';
 import useAuth from '../features/auth/hooks';
 
 const Home = lazy(() => import('../pages/Home'));
-const Products = lazy(() => import('../pages/Products'));
+const Products = lazy(() => import('../features/product/pages/Products'));
 const ProductDetail = lazy(() => import('../features/product/pages/ProductDetail'));
-const Cart = lazy(() => import('../pages/Cart'));
+const Cart = lazy(() => import('../features/cart/pages/Cart'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const { Content } = Layout;
@@ -22,7 +22,7 @@ const MainRoutes = () => {
       <Content className="app-content">
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<Navigate replace to="/home" />} />
+            <Route path="/" element={<Navigate replace to="/products" />} />
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductDetail />} />

@@ -1,17 +1,12 @@
 // Contains API calls and related logic.
 
 import axios from 'axios';
+import { API_BASE_URL, LOCAL_API_BASE_URL } from '../constants';
 
-// const api = axios.create({
-//   baseURL: 'https://fakestoreapi.com', // Replace with your API base URL
-// });
-
-const BASE_URL = 'http://localhost:5000';
-
-const fetchProductsList = () => axios.get('https://fakestoreapi.com/products');
-const fetchProductListById = (id) => axios.get(`https://fakestoreapi.com/products/${id}`);
-const loginApi = (credentials) => axios.get(`${BASE_URL}/users`);
-const registerApi = (data) => axios.post(`${BASE_URL}/users`, data);
+const fetchProductsList = () => axios.get(`${API_BASE_URL}/products`);
+const fetchProductListById = (id) => axios.get(`${API_BASE_URL}/products/${id}`);
+const loginApi = (credentials) => axios.get(`${LOCAL_API_BASE_URL}/users`);
+const registerApi = (data) => axios.post(`${LOCAL_API_BASE_URL}/users`, data);
 
 export { fetchProductsList, fetchProductListById, loginApi, registerApi };
 
