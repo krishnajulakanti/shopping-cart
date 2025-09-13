@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import './assets/styles/App.css';
+import './styles/App.css';
 import { useAuth } from './features/auth';
 import AuthRoutes from './routes/AuthRoutes';
 import MainRoutes from './routes/MainRoutes';

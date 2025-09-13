@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from 'antd';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+import Header from '../commons/components/Header';
+import Footer from '../commons/components/Footer';
 import useAuth from '../features/auth/hooks';
 
 const Home = lazy(() => import('../pages/Home'));

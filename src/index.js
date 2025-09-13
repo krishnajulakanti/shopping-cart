@@ -7,7 +7,6 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
 import 'antd/dist/reset.css'; // Import Ant Design styles
-import './assets/styles/App.css'; // Import custom styles
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
