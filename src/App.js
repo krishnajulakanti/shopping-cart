@@ -5,15 +5,15 @@ import useAuth from './features/auth/hooks';
 import AuthRoutes from './routes/AuthRoutes';
 import MainRoutes from './routes/MainRoutes';
 
-import FilterableProductTable from './sample/FilterableProductTable';
+// import FilterableProductTable from './sample/FilterableProductTable';
 
 function App() {
   const { user } = useAuth();
 
   return (
     <div style={{}}>
-      <FilterableProductTable />
-      {/* <Router
+      {/* <FilterableProductTable /> */}
+      <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/*" element={user?.isLoggedIn ? <MainRoutes /> : <Navigate replace to="/auth/login" />} />
@@ -21,7 +21,7 @@ function App() {
             <Route path="/*" element={user?.isLoggedIn ? <MainRoutes /> : <AuthRoutes />} />
           </Routes>
         </Suspense>
-      </Router> */}
+      </Router>
     </div>
   );
 }
