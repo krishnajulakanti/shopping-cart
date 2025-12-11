@@ -1,14 +1,14 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from 'antd';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+import Header from '../commons/components/Header';
+import Footer from '../commons/components/Footer';
 import useAuth from '../features/auth/hooks';
 
 const Home = lazy(() => import('../pages/Home'));
-const Products = lazy(() => import('../pages/Products'));
+const Products = lazy(() => import('../features/product/pages/Products'));
 const ProductDetail = lazy(() => import('../features/product/pages/ProductDetail'));
-const Cart = lazy(() => import('../pages/Cart'));
+const Cart = lazy(() => import('../features/cart/pages/Cart'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const { Content } = Layout;
