@@ -23,7 +23,7 @@ const MainRoutes = () => {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Navigate replace to="/home" />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<Products />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
