@@ -35,7 +35,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
         run: |
-          docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:latest --push .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
       - name: Fetch current task definition
