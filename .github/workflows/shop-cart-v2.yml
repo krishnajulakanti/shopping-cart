@@ -11,7 +11,7 @@ env:
   ECS_CLUSTER: shop-cart-v2-cluster
   ECS_SERVICE: shop-cart-v2-task-service
   TASK_FAMILY: shop-cart-v2-task
-  CONTAINER_NAME: shopping-cart
+  CONTAINER_NAME: shop-cart-v2
 
 jobs:
   deploy:
