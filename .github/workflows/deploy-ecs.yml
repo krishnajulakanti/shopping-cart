@@ -34,9 +34,7 @@ jobs:
       - name: Build and push image
         env:
           ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-        run: |
-          docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:latest --push .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        run: docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:latest --push .
 
       - name: Fetch current task definition
         run: |
