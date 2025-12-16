@@ -32,13 +32,13 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build image
-        env:
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+        # env:
+        #   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
         run: docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
       
       - name: Push image
-        env:
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+        # env:
+        #   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
         run: docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
       - name: Fetch current task definition
