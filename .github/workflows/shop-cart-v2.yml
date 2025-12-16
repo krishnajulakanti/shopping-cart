@@ -46,11 +46,15 @@ jobs:
             --task-definition $TASK_FAMILY \
             --query taskDefinition > task-def.json
 
+      - name: Remove unsupported fields from task definition
+        run: |
+          jq 'del(.enableFaultInjection,.registeredAt,.registeredBy,.status,.revision,.taskDefinitionArn,.requiresAttributes,.compatibilities)' task-def.json > cleaned-task-def.json
+
       - name: Render new task definition
         id: render-task
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-def.json
+          task-definition: cleaned-task-def.json
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
 
