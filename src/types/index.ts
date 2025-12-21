@@ -1,6 +1,6 @@
-import { AuthUser } from "@/store/auth/authContract";
-import { CartState } from "@/store/cart/cartContract";
-import { ProductState } from "@/store/products/productContract";
+import type { AuthUser } from '@/store/auth/authContract';
+import type { CartState } from '@/store/cart/cartContract';
+import type { ProductState } from '@/store/products/productContract';
 
 // API Response types
 export interface ApiResponse<T> {

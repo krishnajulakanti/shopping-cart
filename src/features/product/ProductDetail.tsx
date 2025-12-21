@@ -2,24 +2,33 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, Spin, Alert, Space, Typography } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import useProduct from '../../store/products/useProduct';
+import { fetchProductByIdAsync } from '../../store/products/productThunks';
+import {
+  selectSelectedProduct,
+  selectProductLoading,
+  selectProductError,
+} from '../../store/products/selectors';
 import useCart from '../../store/cart/useCart';
 import { ROUTES, MESSAGES } from '../../constants';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 const { Title, Text, Paragraph } = Typography;
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const { selectedItem, loadProductById, loading, error } = useProduct();
+  const selectedItem = useAppSelector(selectSelectedProduct);
+  const loading = useAppSelector(selectProductLoading);
+  const error = useAppSelector(selectProductError);
   const { addItemToCart } = useCart();
 
   useEffect(() => {
     if (id) {
-      loadProductById(id);
+      dispatch(fetchProductByIdAsync(id));
     }
-  }, [id, loadProductById]);
+  }, [id, dispatch]);
 
   const handleAddToCart = () => {
     if (selectedItem) {
@@ -93,4 +102,3 @@ const ProductDetail: React.FC = () => {
 };
 
 export default ProductDetail;
-

@@ -1,15 +1,24 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Card, Spin, Alert } from 'antd';
-import useProduct from '../store/products/useProduct';
+import { fetchProductsAsync } from '../store/products/productThunks';
+import {
+  selectProducts,
+  selectProductLoading,
+  selectProductError,
+} from '../store/products/selectors';
 import { ROUTES, MESSAGES } from '../constants';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 const Products: React.FC = () => {
-  const { items, loadProducts, loading, error } = useProduct();
+  const dispatch = useAppDispatch();
+  const items = useAppSelector(selectProducts);
+  const loading = useAppSelector(selectProductLoading);
+  const error = useAppSelector(selectProductError);
 
   useEffect(() => {
-    loadProducts();
-  }, [loadProducts]);
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
 
   if (loading) {
     return (
@@ -59,4 +68,3 @@ const Products: React.FC = () => {
 };
 
 export default Products;
-
