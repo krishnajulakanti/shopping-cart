@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCartOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
-import useAuth from '../../features/auth/hooks';
+import useAuth from '../../store/auth/useAuth';
 import { ROUTES } from '../../constants';
 
 const { Header: AntHeader } = Layout;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Button, Card, Empty, Space, Typography } from 'antd';
 import { MinusOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import useCart from '../features/cart/hooks';
+import useCart from '../store/cart/useCart';
 import { MESSAGES } from '../constants';
 
 const { Title, Text } = Typography;

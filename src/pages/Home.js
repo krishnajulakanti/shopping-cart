@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import useAuth from '../features/auth/hooks';
+import useAuth from '../store/auth/useAuth';
 
 const { Title } = Typography;
 

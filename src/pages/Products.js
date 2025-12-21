@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Card, Spin, Alert } from 'antd';
-import useProduct from '../features/product/hooks';
+import useProduct from '../store/products/useProduct';
 import { ROUTES, MESSAGES } from '../constants';
 
 const Products = () => {

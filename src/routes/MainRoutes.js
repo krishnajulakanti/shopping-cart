@@ -8,7 +8,7 @@ import { ROUTES, MESSAGES } from '../constants';
 
 const Home = lazy(() => import('../pages/Home'));
 const Products = lazy(() => import('../pages/Products'));
-const ProductDetail = lazy(() => import('../features/product/pages/ProductDetail'));
+const ProductDetail = lazy(() => import('../features/product/ProductDetail'));
 const Cart = lazy(() => import('../pages/Cart'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 

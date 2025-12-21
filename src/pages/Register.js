@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../features/auth/hooks';
+import useAuth from '../store/auth/useAuth';
 import { ROUTES, MESSAGES } from '../constants';
 
 const Register = () => {

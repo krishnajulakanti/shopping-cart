@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback } from 'react';
-import { fetchProducts, fetchProductById } from '../redux/productSlice';
+import { fetchProducts, fetchProductById } from './productSlice';
 import {
   selectProducts,
   selectProductLoading,
   selectProductError,
   selectSelectedProduct,
-} from '../redux/selectors';
+} from './selectors';
 
 const useProduct = () => {
   const dispatch = useDispatch();

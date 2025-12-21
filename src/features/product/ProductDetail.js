@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, Spin, Alert, Space, Typography } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import useProduct from '../hooks/index';
-import useCart from '../../cart/hooks/index';
-import { ROUTES, MESSAGES } from '../../../constants';
+import useProduct from '../../store/products/useProduct';
+import useCart from '../../store/cart/useCart';
+import { ROUTES, MESSAGES } from '../../constants';
 
 const { Title, Text, Paragraph } = Typography;
 
