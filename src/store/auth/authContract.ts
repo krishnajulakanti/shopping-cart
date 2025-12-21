@@ -26,3 +26,10 @@ export interface RegisterData {
   email: string;
   password: string;
 }
+
+// Auth State
+export interface AuthState {
+  user: AuthUser | null;
+  loading: boolean;
+  error: string | null;
+}

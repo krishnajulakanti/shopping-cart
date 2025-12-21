@@ -8,9 +8,9 @@ import {
   selectProductLoading,
   selectProductError,
 } from '../../store/products/selectors';
-import useCart from '../../store/cart/useCart';
-import { ROUTES, MESSAGES } from '../../constants';
+import { addItem } from '../../store/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { ROUTES, MESSAGES } from '../../constants';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -22,7 +22,6 @@ const ProductDetail: React.FC = () => {
   const selectedItem = useAppSelector(selectSelectedProduct);
   const loading = useAppSelector(selectProductLoading);
   const error = useAppSelector(selectProductError);
-  const { addItemToCart } = useCart();
 
   useEffect(() => {
     if (id) {
@@ -32,7 +31,7 @@ const ProductDetail: React.FC = () => {
 
   const handleAddToCart = () => {
     if (selectedItem) {
-      addItemToCart(selectedItem);
+      dispatch(addItem(selectedItem));
       navigate(ROUTES.CART);
     }
   };
@@ -40,7 +39,8 @@ const ProductDetail: React.FC = () => {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-        <Spin size="large" tip={MESSAGES.LOADING} />
+        <Spin size="large" />
+        <span style={{ marginLeft: '12px' }}>{MESSAGES.LOADING}</span>
       </div>
     );
   }
@@ -48,7 +48,7 @@ const ProductDetail: React.FC = () => {
   if (error) {
     return (
       <div style={{ padding: '20px' }}>
-        <Alert message={MESSAGES.ERROR} description={error} type="error" showIcon />
+        <Alert title={MESSAGES.ERROR} description={error} type="error" showIcon />
       </div>
     );
   }
@@ -56,7 +56,7 @@ const ProductDetail: React.FC = () => {
   if (!selectedItem) {
     return (
       <div style={{ padding: '20px' }}>
-        <Alert message="Product not found" type="warning" showIcon />
+        <Alert title="Product not found" type="warning" showIcon />
       </div>
     );
   }
@@ -72,7 +72,7 @@ const ProductDetail: React.FC = () => {
           />
         }
       >
-        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+        <Space orientation="vertical" size="large" style={{ width: '100%' }}>
           <Title level={2}>{selectedItem.title}</Title>
           <Text strong style={{ fontSize: '24px', color: '#1890ff' }}>
             Price: ₹ {selectedItem.price}

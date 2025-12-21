@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { List, Card, Spin, Alert } from 'antd';
+import { Row, Col, Card, Spin, Alert } from 'antd';
 import { fetchProductsAsync } from '../store/products/productThunks';
 import {
   selectProducts,
@@ -23,7 +23,8 @@ const Products: React.FC = () => {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-        <Spin size="large" tip={MESSAGES.LOADING} />
+        <Spin size="large" />
+        <span style={{ marginLeft: '12px' }}>{MESSAGES.LOADING}</span>
       </div>
     );
   }
@@ -31,7 +32,7 @@ const Products: React.FC = () => {
   if (error) {
     return (
       <div style={{ padding: '20px' }}>
-        <Alert message={MESSAGES.ERROR} description={error} type="error" showIcon />
+        <Alert title={MESSAGES.ERROR} description={error} type="error" showIcon />
       </div>
     );
   }
@@ -39,11 +40,9 @@ const Products: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <h1>Products</h1>
-      <List
-        grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }}
-        dataSource={items}
-        renderItem={(item) => (
-          <List.Item>
+      <Row gutter={[16, 16]}>
+        {items.map((item) => (
+          <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={6}>
             <Card
               title={item.title}
               hoverable
@@ -60,9 +59,9 @@ const Products: React.FC = () => {
               </p>
               <Link to={`${ROUTES.PRODUCTS}/${item.id}`}>View Details</Link>
             </Card>
-          </List.Item>
-        )}
-      />
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };

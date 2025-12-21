@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../store/auth/useAuth';
+import { registerAsync } from '../store/auth/authThunks';
+import { clearError } from '../store/auth/authSlice';
+import { selectUser, selectAuthLoading, selectAuthError } from '../store/auth/selectors';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { ROUTES, MESSAGES } from '../constants';
-import type { RegisterData } from '../types';
+import type { RegisterData } from '../store/auth/authContract';
 
 const Register: React.FC = () => {
-  const { user, registerUser, loading, error, clearAuthError } = useAuth();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+  const loading = useAppSelector(selectAuthLoading);
+  const error = useAppSelector(selectAuthError);
   const navigate = useNavigate();
   const [form] = Form.useForm<RegisterData>();
 
@@ -20,12 +26,12 @@ const Register: React.FC = () => {
   useEffect(() => {
     if (error) {
       message.error(error);
-      clearAuthError();
+      dispatch(clearError());
     }
-  }, [error, clearAuthError]);
+  }, [error, dispatch]);
 
   const handleSubmit = async (values: RegisterData) => {
-    await registerUser(values);
+    await dispatch(registerAsync(values));
   };
 
   const handleLogin = () => {
@@ -81,4 +87,3 @@ const Register: React.FC = () => {
 };
 
 export default Register;
-

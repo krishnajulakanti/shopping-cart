@@ -1,4 +1,5 @@
-import type { RootState, CartItem } from '../../types';
+import type { RootState } from '../../types';
+import type { CartItem } from './cartContract';
 
 export const selectCartItems = (state: RootState): CartItem[] => state.cart.items;
 
@@ -10,4 +11,3 @@ export const selectCartItemCount = (state: RootState): number =>
 
 export const selectCartItemById = (state: RootState, itemId: number): CartItem | undefined =>
   state.cart.items.find((item) => item.id === itemId);
-

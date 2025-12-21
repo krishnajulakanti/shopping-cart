@@ -2,19 +2,22 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCartOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
-import useAuth from '../../store/auth/useAuth';
+import { logout } from '../../store/auth/authSlice';
+import { selectIsAuthenticated } from '../../store/auth/selectors';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { ROUTES } from '../../constants';
 import type { MenuProps } from 'antd';
 
 const { Header: AntHeader } = Layout;
 
 const Header: React.FC = () => {
-  const { logoutUser, isAuthenticated } = useAuth();
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logoutUser();
-    navigate(ROUTES.PRODUCTS);
+    dispatch(logout());
+    navigate(ROUTES.LOGIN);
   };
 
   const menuItems: MenuProps['items'] = [
@@ -48,4 +51,3 @@ const Header: React.FC = () => {
 };
 
 export default Header;
-

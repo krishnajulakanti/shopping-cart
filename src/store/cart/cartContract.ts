@@ -1,9 +1,9 @@
-import { Product } from "../products/productContract";
-
-export interface CartState {
-  items: CartItem[];
-}
+import type { Product } from '../products/productContract';
 
 export interface CartItem extends Product {
   quantity: number;
+}
+
+export interface CartState {
+  items: CartItem[];
 }

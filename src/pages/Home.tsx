@@ -1,11 +1,13 @@
 import React from 'react';
 import { Typography } from 'antd';
-import useAuth from '../store/auth/useAuth';
+import { selectUser, selectIsAuthenticated } from '../store/auth/selectors';
+import { useAppSelector } from '@/store/hooks';
 
 const { Title } = Typography;
 
 const Home: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const user = useAppSelector(selectUser);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
   if (!isAuthenticated) {
     return null;
@@ -20,4 +22,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-

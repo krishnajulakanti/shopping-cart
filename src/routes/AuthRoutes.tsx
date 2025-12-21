@@ -7,8 +7,15 @@ const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
+const LoadingFallback = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+    <Spin size="large" />
+    <span style={{ marginLeft: '12px' }}>{MESSAGES.LOADING}</span>
+  </div>
+);
+
 const AuthRoutes: React.FC = () => (
-  <Suspense fallback={<Spin size="large" tip={MESSAGES.LOADING} />}>
+  <Suspense fallback={<LoadingFallback />}>
     <Routes>
       <Route path="/" element={<Navigate replace to={ROUTES.LOGIN} />} />
       <Route path="/login" element={<Login />} />
@@ -19,4 +26,3 @@ const AuthRoutes: React.FC = () => (
 );
 
 export default AuthRoutes;
-

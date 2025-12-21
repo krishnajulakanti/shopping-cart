@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import useAuth from '../store/auth/useAuth';
+import { selectIsAuthenticated, selectAuthLoading } from '../store/auth/selectors';
+import { useAppSelector } from '@/store/hooks';
 import { ROUTES } from '../constants';
 
 interface ProtectedRouteProps {
@@ -8,7 +9,8 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const loading = useAppSelector(selectAuthLoading);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -22,4 +24,3 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 };
 
 export default ProtectedRoute;
-

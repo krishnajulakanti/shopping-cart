@@ -14,12 +14,19 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 
 const { Content } = Layout;
 
+const LoadingFallback = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+    <Spin size="large" />
+    <span style={{ marginLeft: '12px' }}>{MESSAGES.LOADING}</span>
+  </div>
+);
+
 const MainRoutes: React.FC = () => {
   return (
     <Layout>
       <Header />
       <Content className="app-content">
-        <Suspense fallback={<Spin size="large" tip={MESSAGES.LOADING} />}>
+        <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path={ROUTES.HOME} element={<Navigate replace to={ROUTES.PRODUCTS} />} />
             <Route path="/home" element={<Navigate replace to={ROUTES.PRODUCTS} />} />
@@ -51,4 +58,3 @@ const MainRoutes: React.FC = () => {
 };
 
 export default MainRoutes;
-

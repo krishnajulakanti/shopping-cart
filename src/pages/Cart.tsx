@@ -1,14 +1,25 @@
 import React from 'react';
-import { List, Button, Card, Empty, Space, Typography } from 'antd';
+import { Row, Col, Button, Card, Empty, Space, Typography } from 'antd';
 import { MinusOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import useCart from '../store/cart/useCart';
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeItem,
+  clearCart,
+} from '../store/cart/cartSlice';
+import {
+  selectCartItems,
+  selectCartTotal,
+} from '../store/cart/selectors';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { MESSAGES } from '../constants';
 
 const { Title, Text } = Typography;
 
 const Cart: React.FC = () => {
-  const { items, total, removeItemFromCart, incrementQuantityInCart, decrementQuantityInCart, clearCartItems } =
-    useCart();
+  const dispatch = useAppDispatch();
+  const items = useAppSelector(selectCartItems);
+  const total = useAppSelector(selectCartTotal);
 
   if (items.length === 0) {
     return (
@@ -21,11 +32,9 @@ const Cart: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <Title level={1}>Shopping Cart</Title>
-      <List
-        grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl: 3 }}
-        dataSource={items}
-        renderItem={(item) => (
-          <List.Item>
+      <Row gutter={[16, 16]}>
+        {items.map((item) => (
+          <Col key={item.id} xs={24} sm={24} md={12} lg={8} xl={8}>
             <Card
               title={item.title}
               hoverable
@@ -41,7 +50,7 @@ const Cart: React.FC = () => {
                 <Button
                   key="decrement"
                   icon={<MinusOutlined />}
-                  onClick={() => decrementQuantityInCart(item)}
+                  onClick={() => dispatch(decrementQuantity(item.id))}
                   disabled={item.quantity <= 1}
                 />,
                 <Text key="quantity" strong>
@@ -50,19 +59,19 @@ const Cart: React.FC = () => {
                 <Button
                   key="increment"
                   icon={<PlusOutlined />}
-                  onClick={() => incrementQuantityInCart(item)}
+                  onClick={() => dispatch(incrementQuantity(item.id))}
                 />,
                 <Button
                   key="remove"
                   danger
                   icon={<DeleteOutlined />}
-                  onClick={() => removeItemFromCart(item)}
+                  onClick={() => dispatch(removeItem(item))}
                 >
                   Remove
                 </Button>,
               ]}
             >
-              <Space direction="vertical" style={{ width: '100%' }}>
+              <Space orientation="vertical" style={{ width: '100%' }}>
                 <Text>
                   <strong>Price:</strong> ₹ {item.price}
                 </Text>
@@ -74,12 +83,12 @@ const Cart: React.FC = () => {
                 </Text>
               </Space>
             </Card>
-          </List.Item>
-        )}
-      />
+          </Col>
+        ))}
+      </Row>
       <div style={{ marginTop: '20px', textAlign: 'right', padding: '20px', background: '#f5f5f5' }}>
-        <Space direction="vertical" align="end" size="large">
-          <Button danger onClick={clearCartItems}>
+        <Space orientation="vertical" align="end" size="large">
+          <Button danger onClick={() => dispatch(clearCart())}>
             Clear Cart
           </Button>
           <Title level={3}>
@@ -92,4 +101,3 @@ const Cart: React.FC = () => {
 };
 
 export default Cart;
-

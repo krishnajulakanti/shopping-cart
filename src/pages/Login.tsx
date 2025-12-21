@@ -1,12 +1,24 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../store/auth/useAuth';
+import { loginAsync } from '../store/auth/authThunks';
+import { logout, clearError } from '../store/auth/authSlice';
+import {
+  selectUser,
+  selectAuthLoading,
+  selectAuthError,
+  selectIsAuthenticated,
+} from '../store/auth/selectors';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { ROUTES } from '../constants';
-import type { LoginCredentials } from '../types';
+import type { LoginCredentials } from '../store/auth/authContract';
 
 const Login: React.FC = () => {
-  const { user, loginUser, loading, error, isAuthenticated, clearAuthError } = useAuth();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+  const loading = useAppSelector(selectAuthLoading);
+  const error = useAppSelector(selectAuthError);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const navigate = useNavigate();
   const [form] = Form.useForm<LoginCredentials>();
 
@@ -19,9 +31,9 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (error) {
       message.error(error);
-      clearAuthError();
+      dispatch(clearError());
     }
-  }, [error, clearAuthError]);
+  }, [error, dispatch]);
 
   useEffect(() => {
     if (user?.message && !user?.isLoggedIn) {
@@ -30,7 +42,7 @@ const Login: React.FC = () => {
   }, [user]);
 
   const handleSubmit = async (values: LoginCredentials) => {
-    await loginUser(values);
+    await dispatch(loginAsync(values));
   };
 
   const handleRegister = () => {
@@ -76,4 +88,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

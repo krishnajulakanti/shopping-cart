@@ -1,4 +1,4 @@
-import type { AuthUser } from '@/store/auth/authContract';
+import type { AuthState } from '@/store/auth/authContract';
 import type { CartState } from '@/store/cart/cartContract';
 import type { ProductState } from '@/store/products/productContract';
 
@@ -10,12 +10,6 @@ export interface ApiResponse<T> {
 }
 
 // Redux State types
-export interface AuthState {
-  user: AuthUser | null;
-  loading: boolean;
-  error: string | null;
-}
-
 export interface RootState {
   auth: AuthState;
   product: ProductState;
