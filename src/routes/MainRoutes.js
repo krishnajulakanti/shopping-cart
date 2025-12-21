@@ -1,9 +1,10 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
-import useAuth from '../features/auth/hooks';
+import ProtectedRoute from './ProtectedRoute';
+import { ROUTES, MESSAGES } from '../constants';
 
 const Home = lazy(() => import('../pages/Home'));
 const Products = lazy(() => import('../pages/Products'));
@@ -14,20 +15,33 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 const { Content } = Layout;
 
 const MainRoutes = () => {
-  // const { user } = useAuth();
-
   return (
     <Layout>
       <Header />
       <Content className="app-content">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Spin size="large" tip={MESSAGES.LOADING} />}>
           <Routes>
-            <Route path="/" element={<Navigate replace to="/home" />} />
-            <Route path="/home" element={<Products />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path={ROUTES.HOME} element={<Navigate replace to={ROUTES.PRODUCTS} />} />
+            <Route path="/home" element={<Navigate replace to={ROUTES.PRODUCTS} />} />
+            <Route path={ROUTES.PRODUCTS} element={<Products />} />
+            <Route path={`${ROUTES.PRODUCTS}/:id`} element={<ProductDetail />} />
+            <Route
+              path={ROUTES.CART}
+              element={
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
           </Routes>
         </Suspense>
       </Content>

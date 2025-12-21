@@ -1,26 +1,78 @@
-// Contains API calls and related logic.
-
 import axios from 'axios';
+import { API_BASE_URL, FAKE_STORE_API_URL } from '../constants';
 
-// const api = axios.create({
-//   baseURL: 'https://fakestoreapi.com', // Replace with your API base URL
-// });
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-const BASE_URL = 'http://localhost:5000';
+// Request interceptor
+api.interceptors.request.use(
+  (config) => {
+    // Add auth token if available
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-const fetchProductsList = () => axios.get('https://fakestoreapi.com/products');
-const fetchProductListById = (id) => axios.get(`https://fakestoreapi.com/products/${id}`);
-const loginApi = (credentials) => axios.get(`${BASE_URL}/users`);
-const registerApi = (data) => axios.post(`${BASE_URL}/users`, data);
+// Response interceptor
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Handle common errors
+    if (error.response) {
+      // Server responded with error status
+      return Promise.reject(error);
+    } else if (error.request) {
+      // Request made but no response
+      return Promise.reject(new Error('Network error. Please check your connection.'));
+    } else {
+      // Something else happened
+      return Promise.reject(error);
+    }
+  }
+);
 
-export { fetchProductsList, fetchProductListById, loginApi, registerApi };
+// Product API calls
+export const fetchProductsList = () => axios.get(`${FAKE_STORE_API_URL}/products`);
+export const fetchProductListById = (id) => axios.get(`${FAKE_STORE_API_URL}/products/${id}`);
 
-// const api = fetch('https://fakestoreapi.com');
+// Auth API calls
+export const loginApi = (credentials) => api.get('/users');
+export const registerApi = (data) => api.post('/users', data);
 
-// export const fetchProducts = () => api.get('/products');
-// export const fetchProducts = () => fetch('https://fakestoreapi.com/products');
-// export const fetchProductById = (id) => api.get(`/products/${id}`);
-// export const login = (credentials) => api.post('/auth/login', credentials);
-// export const register = (data) => api.post('/auth/register', data);
+// Auth service with business logic
+export const authService = {
+  login: async (credentials) => {
+    const response = await loginApi(credentials);
+    if (response.data.length) {
+      const user = response.data.find(
+        (element) => element.email === credentials.email && element.password === credentials.password
+      );
+      if (user) {
+        return { user, isLoggedIn: true };
+      }
+      throw new Error('Invalid email or password.');
+    }
+    throw new Error('User not registered.');
+  },
+  register: async (data) => {
+    const response = await registerApi(data);
+    if (response.data) {
+      return { isUserCreated: true };
+    }
+    throw new Error('Registration failed.');
+  },
+};
 
-// export default fetchProducts;
+export default api;

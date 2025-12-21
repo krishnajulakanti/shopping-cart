@@ -1,30 +1,55 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { List, Card } from 'antd';
+import { List, Card, Spin, Alert } from 'antd';
 import useProduct from '../features/product/hooks';
+import { ROUTES, MESSAGES } from '../constants';
 
 const Products = () => {
   const { items, loadProducts, loading, error } = useProduct();
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [loadProducts]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+        <Spin size="large" tip={MESSAGES.LOADING} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: '20px' }}>
+        <Alert message={MESSAGES.ERROR} description={error} type="error" showIcon />
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <h1>Products</h1>
       <List
-        grid={{ gutter: 16, column: 4 }}
+        grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }}
         dataSource={items}
         renderItem={(item) => (
           <List.Item>
-            <Card title={item?.title}>
-              <img src={item?.image} alt="cong" style={{ height: '100px', width: '100px' }} />
-              <p>Price: ₹ {item?.price}</p>
-              <Link to={`/products/${item.id}`}>View Details</Link>
+            <Card
+              title={item?.title}
+              hoverable
+              cover={
+                <img
+                  alt={item?.title}
+                  src={item?.image}
+                  style={{ height: '200px', objectFit: 'contain', padding: '10px' }}
+                />
+              }
+            >
+              <p>
+                <strong>Price:</strong> ₹ {item?.price}
+              </p>
+              <Link to={`${ROUTES.PRODUCTS}/${item.id}`}>View Details</Link>
             </Card>
           </List.Item>
         )}
@@ -34,10 +59,3 @@ const Products = () => {
 };
 
 export default Products;
-
-// const items = [
-//   { id: 1, name: 'Car', price: 10 },
-//   { id: 2, name: 'Bike', price: 20 },
-//   { id: 3, name: 'Lorry', price: 30 },
-//   { id: 4, name: 'Jeep', price: 40 },
-// ]

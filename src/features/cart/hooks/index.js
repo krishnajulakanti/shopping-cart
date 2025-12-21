@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, incrementQuantity, decrementQuantity, removeItem, clearCart } from '../redux/cartSlice';
+import { selectCartItems, selectCartTotal, selectCartItemCount } from '../redux/selectors';
 
 const useCart = () => {
-  
   const dispatch = useDispatch();
-  const cartState = useSelector((state) => state.cart);
+  const items = useSelector(selectCartItems);
+  const total = useSelector(selectCartTotal);
+  const itemCount = useSelector(selectCartItemCount);
 
   const addItemToCart = (item) => {
     dispatch(addItem(item));
@@ -27,12 +29,14 @@ const useCart = () => {
   };
 
   return {
-    ...cartState,
+    items,
+    total,
+    itemCount,
     addItemToCart,
     removeItemFromCart,
     clearCartItems,
     incrementQuantityInCart,
-    decrementQuantityInCart
+    decrementQuantityInCart,
   };
 };
 

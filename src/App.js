@@ -1,29 +1,20 @@
-import React, { Suspense, useState } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './assets/styles/App.css';
-import useAuth from './features/auth/hooks';
-import AuthRoutes from './routes/AuthRoutes';
 import MainRoutes from './routes/MainRoutes';
+import AuthRoutes from './routes/AuthRoutes';
+import { MESSAGES } from './constants';
 
 function App() {
-  const { user } = useAuth();
-
   return (
-    <div style={{}}>
-      <Router>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            {/* NO AUTH */}
-            <Route path="/*" element={<MainRoutes />} />
-
-            {/* AUTHENTICATION */}
-            {/* <Route path="/*" element={user?.isLoggedIn ? <MainRoutes /> : <Navigate replace to="/auth/login" />} />
-            <Route path="/auth/*" element={<AuthRoutes />} />
-            <Route path="/*" element={user?.isLoggedIn ? <MainRoutes /> : <AuthRoutes />} /> */}
-          </Routes>
-        </Suspense>
-      </Router>
-    </div>
+    <Router>
+      <Suspense fallback={<div>{MESSAGES.LOADING}</div>}>
+        <Routes>
+          <Route path="/auth/*" element={<AuthRoutes />} />
+          <Route path="/*" element={<MainRoutes />} />
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
 

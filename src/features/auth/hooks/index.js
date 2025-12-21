@@ -1,28 +1,46 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout, register, selectUser } from '../redux/authSlice';
+import { useCallback } from 'react';
+import { login, logout, register, clearError } from '../redux/authSlice';
+import { selectUser, selectAuthLoading, selectAuthError, selectIsAuthenticated } from '../redux/selectors';
 
 const useAuth = () => {
-
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth);
+  const user = useSelector(selectUser);
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
-  const loginUser = (credentials) => {
-    dispatch(login(credentials));
-  };
+  const loginUser = useCallback(
+    (credentials) => {
+      dispatch(login(credentials));
+    },
+    [dispatch]
+  );
 
-  const logoutUser = () => {
+  const logoutUser = useCallback(() => {
     dispatch(logout());
-  };
+  }, [dispatch]);
 
-  const registerUser = (data) => {
-    dispatch(register(data));
-  };
+  const registerUser = useCallback(
+    (data) => {
+      dispatch(register(data));
+    },
+    [dispatch]
+  );
+
+  const clearAuthError = useCallback(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   return {
-    ...authState,
+    user,
+    loading,
+    error,
+    isAuthenticated,
     loginUser,
     logoutUser,
     registerUser,
+    clearAuthError,
   };
 };
 

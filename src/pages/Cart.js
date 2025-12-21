@@ -1,44 +1,92 @@
 import React from 'react';
-import { List, Button, Card } from 'antd';
+import { List, Button, Card, Empty, Space, Typography } from 'antd';
+import { MinusOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import useCart from '../features/cart/hooks';
-import { useSelector } from 'react-redux';
-import { selectCartTotal } from '../features/cart/redux/cartSlice';
+import { MESSAGES } from '../constants';
+
+const { Title, Text } = Typography;
 
 const Cart = () => {
-  const totalAmount = useSelector(selectCartTotal);
+  const { items, total, removeItemFromCart, incrementQuantityInCart, decrementQuantityInCart, clearCartItems } =
+    useCart();
 
-  const { items, removeItemFromCart, incrementQuantityInCart, decrementQuantityInCart, clearCartItems } = useCart();
+  if (items.length === 0) {
+    return (
+      <div style={{ padding: '20px', textAlign: 'center' }}>
+        <Empty description={MESSAGES.CART_EMPTY} />
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h1>Shopping Cart</h1>
-      {items.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <div>
-          <List
-            dataSource={items}
-            renderItem={(item) => (
-              <List.Item>
-                <div key={item?.id} className="cart-item" style={{ height: '100%', width: '20%' }}>
-                  <Card title={item?.title} >
-                  {/* <h2>{item?.title}</h2> */}
-                    <img src={item?.image} alt="cong" style={{ height: '100px', width: '100px' }} />
-                  <p>Price: ₹ {item?.price}</p>
-                  <p>Quantity: {item?.quantity}</p>
-                  <p>Total: ₹ {item?.price * item?.quantity}</p>
-                  <Button onClick={() => incrementQuantityInCart(item)}>+</Button>
-                  <Button onClick={() => decrementQuantityInCart(item)}>-</Button>
-                  <Button onClick={() => removeItemFromCart(item)}>Remove Item</Button>
-                  </Card>
-                </div>
-              </List.Item>
-            )}
-          />
-          <Button onClick={clearCartItems}>Clear Cart</Button>
-          <h2>Total Amount: ₹ {totalAmount}</h2>
-        </div>
-      )}
+    <div style={{ padding: '20px' }}>
+      <Title level={1}>Shopping Cart</Title>
+      <List
+        grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl: 3 }}
+        dataSource={items}
+        renderItem={(item) => (
+          <List.Item>
+            <Card
+              title={item?.title}
+              hoverable
+              style={{ width: '100%' }}
+              cover={
+                <img
+                  alt={item?.title}
+                  src={item?.image}
+                  style={{ height: '200px', objectFit: 'contain', padding: '10px' }}
+                />
+              }
+              actions={[
+                <Button
+                  key="decrement"
+                  icon={<MinusOutlined />}
+                  onClick={() => decrementQuantityInCart(item)}
+                  disabled={item.quantity <= 1}
+                />,
+                <Text key="quantity" strong>
+                  {item?.quantity}
+                </Text>,
+                <Button
+                  key="increment"
+                  icon={<PlusOutlined />}
+                  onClick={() => incrementQuantityInCart(item)}
+                />,
+                <Button
+                  key="remove"
+                  danger
+                  icon={<DeleteOutlined />}
+                  onClick={() => removeItemFromCart(item)}
+                >
+                  Remove
+                </Button>,
+              ]}
+            >
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Text>
+                  <strong>Price:</strong> ₹ {item?.price}
+                </Text>
+                <Text>
+                  <strong>Quantity:</strong> {item?.quantity}
+                </Text>
+                <Text>
+                  <strong>Subtotal:</strong> ₹ {item?.price * item?.quantity}
+                </Text>
+              </Space>
+            </Card>
+          </List.Item>
+        )}
+      />
+      <div style={{ marginTop: '20px', textAlign: 'right', padding: '20px', background: '#f5f5f5' }}>
+        <Space direction="vertical" align="end" size="large">
+          <Button danger onClick={clearCartItems}>
+            Clear Cart
+          </Button>
+          <Title level={3}>
+            Total Amount: ₹ {total.toFixed(2)}
+          </Title>
+        </Space>
+      </div>
     </div>
   );
 };

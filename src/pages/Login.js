@@ -1,53 +1,73 @@
-import React, { useEffect, useRef } from 'react';
-import { Form, Input, Button, Card } from 'antd';
+import React, { useEffect } from 'react';
+import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../features/auth/hooks';
+import { ROUTES } from '../constants';
 
 const Login = () => {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-
-  const { user, loginUser, loading, error } = useAuth();
+  const { user, loginUser, loading, error, isAuthenticated, clearAuthError } = useAuth();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    if (user?.isLoggedIn) {
-      navigate('/home');
-    } else if (user?.isUserFound === false || user?.isLoggedIn !== undefined) {
-      alert(user?.message);
+    if (isAuthenticated) {
+      navigate(ROUTES.HOME);
     }
-  }, [user])
+  }, [isAuthenticated, navigate]);
 
-  const handleSubmit = async () => {
-    let data = {
-      email: emailRef.current.input.value,
-      password: passwordRef.current.input.value
+  useEffect(() => {
+    if (error) {
+      message.error(error);
+      clearAuthError();
     }
-    await loginUser(data);
+  }, [error, clearAuthError]);
+
+  useEffect(() => {
+    if (user?.message && !user?.isLoggedIn) {
+      message.warning(user.message);
+    }
+  }, [user]);
+
+  const handleSubmit = async (values) => {
+    await loginUser(values);
   };
 
   const handleRegister = () => {
-    navigate('/auth/register');
-  }
+    navigate(ROUTES.REGISTER);
+  };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px' }}>
       <Card style={{ width: '30%' }}>
         <h1>Login</h1>
-        <Form onFinish={handleSubmit}>
-          <Form.Item label="Email" name="email">
-            <Input ref={emailRef} required />
+        <Form form={form} onFinish={handleSubmit} layout="vertical">
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: 'Please input your email!' },
+              { type: 'email', message: 'Please enter a valid email!' },
+            ]}
+          >
+            <Input />
           </Form.Item>
-          <Form.Item label="Password" name="password">
-            <Input.Password ref={passwordRef} required />
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button type="primary" htmlType="submit" loading={loading} block>
               Login
-            </Button> &nbsp;
-            <Button type="primary" danger onClick={handleRegister}> Register </Button>
+            </Button>
           </Form.Item>
-          {error && <p>{error}</p>}
+          <Form.Item>
+            <Button type="link" onClick={handleRegister} block>
+              Don't have an account? Register
+            </Button>
+          </Form.Item>
         </Form>
       </Card>
     </div>

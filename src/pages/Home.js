@@ -1,28 +1,20 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { selectUser } from '../features/auth/redux/authSlice';
+import React from 'react';
+import { Typography } from 'antd';
 import useAuth from '../features/auth/hooks';
 
+const { Title } = Typography;
+
 const Home = () => {
+  const { user, isAuthenticated } = useAuth();
 
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/auth/login');
-    }
-  }, [user, navigate]);
-
-  if (!user) {
-    return null; // or a loading spinner
+  if (!isAuthenticated) {
+    return null;
   }
 
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      {/* Add your home page content here */}
+    <div style={{ padding: '20px', textAlign: 'center' }}>
+      <Title level={1}>Welcome to the Home Page</Title>
+      {user?.user?.name && <Title level={3}>Hello, {user.user.name}!</Title>}
     </div>
   );
 };
