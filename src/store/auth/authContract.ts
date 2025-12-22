@@ -8,6 +8,8 @@ export interface User {
 
 export interface AuthUser {
   user?: User;
+  response?: User; // Backend response - User object from API
+  token?: string; // JWT token from backend
   isLoggedIn?: boolean;
   isUserCreated?: boolean;
   isUserFound?: boolean;

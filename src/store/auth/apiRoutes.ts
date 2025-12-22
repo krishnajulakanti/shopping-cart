@@ -5,7 +5,8 @@
 
 // Local API routes (through proxy)
 export const authRoutes = {
-  login: '/users',
+  login: '/auth/login',
+  // getUsers: '/users',
   register: '/users',
 };
 

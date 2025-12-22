@@ -4,22 +4,30 @@ import type { User, LoginCredentials, RegisterData } from './authContract';
 
 /**
  * Login user
- * Uses apiRoutes to get the correct endpoint, then apiClient.get
+ * Uses apiRoutes to get the correct endpoint, then apiClient.post
+ * Returns user data and token if available
  */
-export const login = async (credentials: LoginCredentials): Promise<{ user: User; isLoggedIn: boolean }> => {
+export const login = async (credentials: LoginCredentials): Promise<{ response: User; isLoggedIn: boolean; token?: string }> => {
   try {
-    const users = await apiClient.get<User[]>(authRoutes.login);
+    const response = await apiClient.post<User & { token?: string }>(authRoutes.login, credentials);
     
-    if (users.length) {
-      const user = users.find(
-        (element) => element.email === credentials.email && element.password === credentials.password
-      );
-      if (user) {
-        return { user, isLoggedIn: true };
-      }
-      throw new Error('Invalid email or password.');
+    if (!response) {
+      throw new Error('Invalid response from server');
     }
-    throw new Error('User not registered.');
+
+    // Extract token if present in response
+    const { token, ...userData } = response;
+    
+    // Store token in localStorage if provided
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+
+    return { 
+      response: userData as User, 
+      isLoggedIn: true,
+      token 
+    };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Login failed';
     throw new Error(errorMessage);

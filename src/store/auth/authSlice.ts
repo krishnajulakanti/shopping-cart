@@ -20,6 +20,10 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setUser: (state, action: PayloadAction<AuthUser>) => {
+      state.user = action.payload;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -31,6 +35,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.error = null;
+        // Token is already stored in localStorage by the service layer
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.loading = false;
@@ -52,5 +57,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, setUser } = authSlice.actions;
 export default authSlice.reducer;

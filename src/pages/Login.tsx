@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { loginAsync } from '../store/auth/authThunks';
-import { logout, clearError } from '../store/auth/authSlice';
+import { clearError } from '../store/auth/authSlice';
 import {
-  selectUser,
   selectAuthLoading,
   selectAuthError,
   selectIsAuthenticated,
@@ -15,19 +14,20 @@ import type { LoginCredentials } from '../store/auth/authContract';
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
   const loading = useAppSelector(selectAuthLoading);
   const error = useAppSelector(selectAuthError);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const navigate = useNavigate();
   const [form] = Form.useForm<LoginCredentials>();
 
+  // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(ROUTES.HOME);
+      navigate(ROUTES.PRODUCTS);
     }
   }, [isAuthenticated, navigate]);
 
+  // Handle errors
   useEffect(() => {
     if (error) {
       message.error(error);
@@ -35,14 +35,12 @@ const Login: React.FC = () => {
     }
   }, [error, dispatch]);
 
-  useEffect(() => {
-    if (user?.message && !user?.isLoggedIn) {
-      message.warning(user.message);
-    }
-  }, [user]);
-
   const handleSubmit = async (values: LoginCredentials) => {
-    await dispatch(loginAsync(values));
+    const result = await dispatch(loginAsync(values));
+    if (loginAsync.fulfilled.match(result)) {
+      message.success(result.payload.message || 'Login successful');
+      navigate(ROUTES.PRODUCTS);
+    }
   };
 
   const handleRegister = () => {
