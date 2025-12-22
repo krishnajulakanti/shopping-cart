@@ -41,7 +41,7 @@ export const login = async (credentials: LoginCredentials): Promise<{ response: 
 export const register = async (data: RegisterData): Promise<{ isUserCreated: boolean }> => {
   try {
     const response = await apiClient.post<User>(authRoutes.register, data);
-    if (response) {
+    if (response.success) {
       return { isUserCreated: true };
     }
     throw new Error('Registration failed.');

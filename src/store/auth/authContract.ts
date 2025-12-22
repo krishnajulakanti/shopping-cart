@@ -1,9 +1,11 @@
 // User types
 export interface User {
   id?: number;
+  status?: number;
   name: string;
   email: string;
   password?: string;
+  success?: boolean;
 }
 
 export interface AuthUser {
