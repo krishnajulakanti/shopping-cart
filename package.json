@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"npm run server\"",
+    "dev": "vite",
+    "js": "concurrently \"vite\" \"npm run server\"",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
