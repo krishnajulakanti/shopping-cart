@@ -4,12 +4,15 @@ const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
+// Middleware (code that runs between request & response)
 app.use(cors({
   origin: "http://localhost:3000",
   credentials: true
 }));
 
-app.use(express.json());
+app.use(express.json());   // body parser
+// Middleware
+
 app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {

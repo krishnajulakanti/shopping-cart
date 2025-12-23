@@ -1,9 +1,8 @@
-const users = require("../data/users.json");
-const fs = require("fs");
-const path = require("path");
+// for connecting to postgres db
+const pool = require("../db/db");
 
 // Login
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   // Validate input
@@ -11,30 +10,50 @@ exports.login = (req, res) => {
     return res.status(400).json({ message: "Email and Password required."});
   }
 
-  // Find user
-  const user = users.find((user) => user.email === email && user.password === password);
-
-  // Invalid credentials
-  if(!user) {
-    return res.status(401).json({ message: "Invalid credentials"});
-  }
-
-  // Success response (no pwd !!)
-  return res.json({
-    message: "Login successful",
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name
+  try {
+    const result = await pool.query(
+      "SELECT id, name, email, password FROM users WHERE email = $1",
+      [email]
+    );
+    
+    if(result.rows.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials"
+      });
     }
-  })
+
+    const user = result.rows[0];
+
+    if(user.password !== password) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials."
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Login successful",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }
+    })
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
 
 }
 
 // Register
-const usersFilePath = path.join(__dirname, "../data/users.json");
-
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
   // Validate input
@@ -42,30 +61,36 @@ exports.register = (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  // Read existing users
-  const users = JSON.parse(fs.readFileSync(usersFilePath, "utf-8"));
+  try {
+    // Check if user already exists
+    const existingUser = await pool.query(
+      "SELECT id FROM users WHERE email = $1",
+      [email]
+    );
 
-  // Check if user already exists
-  const existingUser = users.find((user) => user.email === email);
-  if(existingUser) {
-    return res.status(409).json({ message: "User already exits"});
+    if(existingUser.rows.length > 0) {
+      return res.status(409).json({
+        success: false,
+        message: "User already exists"
+      });
+    }
+
+    // Insert new user
+    await pool.query(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
+      [name, email, password]
+    );
+
+    return res.status(201).json({
+      success: true,
+      message: "User registered successfully on DB."
+    })
+
+  } catch(err) {
+    console.error(err);
+    return res.status(500).json({
+      success: true,
+      message: "Server error."
+    });
   }
-
-  // Create new user object
-  const newUser = {
-    id: Date.now().toString(),
-    name,
-    email,
-    password
-  };
-
-  // Save user
-  users.push(newUser);
-  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
-
-  // Respond success
-  return res.status(201).json({
-    "success": true,
-    "message": "User registered successfully"
-  });
 }
